@@ -7,11 +7,4 @@
 -- - birth_date: date
 -- - created_at: timestamp with default value of current timestamp
 
-CREATE TABLE students (
-    id INTEGER PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    birth_date DATE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- TODO: Implement the students table creation

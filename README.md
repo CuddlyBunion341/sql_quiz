@@ -6,6 +6,25 @@ A comprehensive collection of SQL practice tasks covering both DDL (Data Definit
 
 This project provides progressive SQL exercises organized into DDL and DML tasks, each increasing in complexity. Tests verify that all SQL scripts work correctly using Bun's native SQLite implementation.
 
+## Quick Start
+
+1. Install dependencies:
+   ```bash
+   bun install
+   ```
+
+2. Check your progress (simple output):
+   ```bash
+   bun test:summary
+   ```
+
+3. Start with DDL Task 1 (`src/DDL/task1.sql`), implement the solution, then check:
+   ```bash
+   bun test:ddl
+   ```
+
+4. Continue through all tasks, checking progress as you go!
+
 ## Project Structure
 
 ```
@@ -15,7 +34,8 @@ sql_quiz/
 │   │   ├── task1.sql       # Basic table creation
 │   │   ├── task2.sql       # Check constraints
 │   │   ├── task3.sql       # Foreign key relationships
-│   │   └── task4.sql       # Complex schema with multiple tables
+│   │   ├── task4.sql       # Complex schema with multiple tables
+│   │   └── task5.sql       # Database cleanup (DROP statements)
 │   └── DML/                # Data Manipulation Language tasks
 │       ├── task1.sql       # Basic SELECT, WHERE, LIKE, ORDER BY
 │       ├── task2.sql       # Aggregate functions and GROUP BY
@@ -23,7 +43,8 @@ sql_quiz/
 │       └── task4.sql       # Advanced queries with subqueries and UNION
 ├── spec/                   # Test files
 │   ├── test-helper.ts     # Test utilities
-│   ├── ddl.test.ts        # DDL tests
+│   ├── ddl.test.ts        # DDL tests (tasks 1-4)
+│   ├── ddl-cleanup.test.ts # DDL cleanup tests (task 5)
 │   └── dml.test.ts        # DML tests
 └── README.md
 ```
@@ -49,6 +70,12 @@ sql_quiz/
 - Build a multi-table system (library management)
 - Combine all constraint types
 - Design relationships between multiple entities
+
+### Task 5: Database Cleanup
+- Learn to DROP tables in correct order
+- Handle foreign key dependencies during cleanup
+- Use DROP TABLE IF EXISTS for safe cleanup
+- Understand the importance of cleanup order
 
 ## DML Tasks
 
@@ -84,24 +111,67 @@ bun install
 
 ## Running Tests
 
-Run all tests:
+### Quick Summary (Recommended)
 
+Get a concise summary of your progress:
+
+```bash
+bun test:summary
+# or
+bun test 2>&1 | tail -3
+```
+
+Output example:
+```
+ 15 pass
+ 16 fail
+Ran 31 tests across 2 files.
+```
+
+### Test Specific Tasks
+
+Test only DDL tasks (table creation):
+```bash
+bun test:ddl
+```
+
+Test only DML tasks (queries):
+```bash
+bun test:dml
+```
+
+Test a specific task by name:
+```bash
+bun test --test-name-pattern "Task 1"
+bun test --test-name-pattern "Basic table creation"
+```
+
+### See Which Tests Pass/Fail
+
+Show only passing tests:
+```bash
+bun test:pass
+```
+
+Show only failing tests:
+```bash
+bun test:fail
+```
+
+### Full Output
+
+See all test details (verbose):
 ```bash
 bun test
 ```
 
-Run specific test file:
-
-```bash
-bun test spec/ddl.test.ts
-bun test spec/dml.test.ts
-```
-
 ## Test Coverage
 
-The test suite includes 31 tests covering:
+The test suite includes 35 tests covering:
 - Table creation and schema validation
 - Constraint enforcement (NOT NULL, UNIQUE, CHECK, FOREIGN KEY)
+- Database cleanup with DROP statements
+- Foreign key dependency handling during cleanup
 - Data insertion and validation
 - Query result verification
 - Aggregate function accuracy
@@ -110,14 +180,22 @@ The test suite includes 31 tests covering:
 
 All tests use an in-memory SQLite database for fast, isolated testing.
 
+**Automatic Cleanup:** Tables are automatically dropped after each test using the `cleanup()` method, which:
+- Disables foreign key constraints temporarily
+- Drops all user tables (excluding SQLite system tables)
+- Re-enables foreign key constraints
+- Ensures each test starts with a clean database
+
 ## Learning Path
 
 1. Start with **DDL Task 1** to learn basic table creation
-2. Progress through DDL tasks 2-4 to master constraints and relationships
+2. Progress through DDL tasks 2-5 to master constraints, relationships, and cleanup
 3. Move to **DML Task 1** for basic query operations
 4. Advance through DML tasks 2-4 for complex queries
 
 Each task builds on concepts from previous tasks, creating a progressive learning experience.
+
+**Note:** DDL Task 5 (cleanup) teaches you how to properly drop tables and handle dependencies. This is important for database maintenance and testing!
 
 ## Technologies
 

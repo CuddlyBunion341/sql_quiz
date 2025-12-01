@@ -28,36 +28,10 @@
 -- - return_date: date
 -- - check constraint: return_date must be null or >= loan_date
 
-CREATE TABLE authors (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(100) NOT NULL,
-    country VARCHAR(50)
-);
+-- TODO: Implement the authors table
 
-CREATE TABLE books (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title VARCHAR(200) NOT NULL,
-    author_id INTEGER,
-    isbn VARCHAR(13) UNIQUE NOT NULL,
-    published_year INTEGER CHECK (published_year BETWEEN 1000 AND 2100),
-    available_copies INTEGER DEFAULT 1 CHECK (available_copies >= 0),
-    FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE
-);
+-- TODO: Implement the books table with foreign key to authors
 
-CREATE TABLE borrowers (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    member_since DATE DEFAULT CURRENT_DATE
-);
+-- TODO: Implement the borrowers table
 
-CREATE TABLE loans (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    book_id INTEGER,
-    borrower_id INTEGER,
-    loan_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    return_date DATE,
-    CHECK (return_date IS NULL OR return_date >= loan_date),
-    FOREIGN KEY (book_id) REFERENCES books(id),
-    FOREIGN KEY (borrower_id) REFERENCES borrowers(id)
-);
+-- TODO: Implement the loans table with foreign keys and check constraint

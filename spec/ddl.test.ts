@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from 'bun:test';
+import { describe, test, expect, beforeEach, afterEach } from 'bun:test';
 import { TestHelper, getSqlFilePath } from './test-helper';
 
 describe('DDL Task 1: Basic table creation', () => {
@@ -6,6 +6,10 @@ describe('DDL Task 1: Basic table creation', () => {
 
   beforeEach(() => {
     helper = new TestHelper();
+  });
+
+  afterEach(() => {
+    helper.cleanup();
   });
 
   test('should create students table with correct schema', () => {
@@ -26,6 +30,8 @@ describe('DDL Task 1: Basic table creation', () => {
 
   test('should enforce NOT NULL constraints', () => {
     helper.executeSqlFile(getSqlFilePath('DDL', 1));
+
+    expect(helper.tableExists('students')).toBe(true);
 
     expect(() => {
       helper.getDb().run('INSERT INTO students (id) VALUES (1)');
@@ -54,6 +60,10 @@ describe('DDL Task 2: Check constraints', () => {
     helper = new TestHelper();
   });
 
+  afterEach(() => {
+    helper.cleanup();
+  });
+
   test('should create products table', () => {
     helper.executeSqlFile(getSqlFilePath('DDL', 2));
 
@@ -62,6 +72,8 @@ describe('DDL Task 2: Check constraints', () => {
 
   test('should enforce price > 0 constraint', () => {
     helper.executeSqlFile(getSqlFilePath('DDL', 2));
+
+    expect(helper.tableExists('products')).toBe(true);
 
     expect(() => {
       helper.getDb().run(
@@ -72,6 +84,8 @@ describe('DDL Task 2: Check constraints', () => {
 
   test('should enforce quantity >= 0 constraint', () => {
     helper.executeSqlFile(getSqlFilePath('DDL', 2));
+
+    expect(helper.tableExists('products')).toBe(true);
 
     expect(() => {
       helper.getDb().run(
@@ -89,6 +103,10 @@ describe('DDL Task 3: Foreign key relationships', () => {
     helper.getDb().run('PRAGMA foreign_keys = ON');
   });
 
+  afterEach(() => {
+    helper.cleanup();
+  });
+
   test('should create departments and employees tables', () => {
     helper.executeSqlFile(getSqlFilePath('DDL', 3));
 
@@ -98,6 +116,9 @@ describe('DDL Task 3: Foreign key relationships', () => {
 
   test('should enforce foreign key constraint', () => {
     helper.executeSqlFile(getSqlFilePath('DDL', 3));
+
+    expect(helper.tableExists('departments')).toBe(true);
+    expect(helper.tableExists('employees')).toBe(true);
 
     expect(() => {
       helper.getDb().run(
@@ -128,6 +149,10 @@ describe('DDL Task 4: Complex schema', () => {
   beforeEach(() => {
     helper = new TestHelper();
     helper.getDb().run('PRAGMA foreign_keys = ON');
+  });
+
+  afterEach(() => {
+    helper.cleanup();
   });
 
   test('should create all library tables', () => {

@@ -78,7 +78,7 @@ export class TestHelper {
     const result = this.db.query(
       "SELECT name FROM sqlite_master WHERE type='table' AND name=?"
     ).get(tableName);
-    return result !== undefined;
+    return result != null; // Check for both null and undefined
   }
 
   /**
@@ -107,6 +107,27 @@ export class TestHelper {
    */
   getDb(): Database {
     return this.db;
+  }
+
+  /**
+   * Clean up all tables in the database
+   */
+  cleanup(): void {
+    // Get all table names
+    const tables = this.db.query(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+    ).all() as Array<{ name: string }>;
+
+    // Disable foreign key constraints temporarily for cleanup
+    this.db.run('PRAGMA foreign_keys = OFF');
+
+    // Drop all tables
+    for (const table of tables) {
+      this.db.run(`DROP TABLE IF EXISTS ${table.name}`);
+    }
+
+    // Re-enable foreign key constraints
+    this.db.run('PRAGMA foreign_keys = ON');
   }
 }
 

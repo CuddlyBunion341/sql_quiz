@@ -14,17 +14,6 @@
 -- - hire_date: date, not null
 -- - foreign key constraint with ON DELETE SET NULL
 
-CREATE TABLE departments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    location VARCHAR(100)
-);
+-- TODO: Implement the departments table
 
-CREATE TABLE employees (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(100) NOT NULL,
-    department_id INTEGER,
-    salary DECIMAL(10,2) CHECK (salary > 0),
-    hire_date DATE NOT NULL,
-    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
-);
+-- TODO: Implement the employees table with foreign key relationship

@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from 'bun:test';
+import { describe, test, expect, beforeEach, afterEach } from 'bun:test';
 import { TestHelper, getSqlFilePath } from './test-helper';
 
 describe('DML Task 1: Basic SELECT queries', () => {
@@ -7,6 +7,10 @@ describe('DML Task 1: Basic SELECT queries', () => {
   beforeEach(() => {
     helper = new TestHelper();
     helper.executeSqlFile(getSqlFilePath('DML', 1));
+  });
+
+  afterEach(() => {
+    helper.cleanup();
   });
 
   test('should have populated books table', () => {
@@ -39,6 +43,10 @@ describe('DML Task 2: Aggregate functions', () => {
   beforeEach(() => {
     helper = new TestHelper();
     helper.executeSqlFile(getSqlFilePath('DML', 2));
+  });
+
+  afterEach(() => {
+    helper.cleanup();
   });
 
   test('should calculate average soup price', () => {
@@ -77,7 +85,12 @@ describe('DML Task 3: JOINs', () => {
     helper.executeSqlFile(getSqlFilePath('DML', 3));
   });
 
+  afterEach(() => {
+    helper.cleanup();
+  });
+
   test('should have visitors and guests tables', () => {
+    expect(helper.tableExists('restaurants')).toBe(true);
     expect(helper.tableExists('visitors')).toBe(true);
     expect(helper.tableExists('guests')).toBe(true);
   });
@@ -118,6 +131,10 @@ describe('DML Task 4: Advanced queries', () => {
   beforeEach(() => {
     helper = new TestHelper();
     helper.executeSqlFile(getSqlFilePath('DML', 4));
+  });
+
+  afterEach(() => {
+    helper.cleanup();
   });
 
   test('should calculate average stock', () => {

@@ -2,6 +2,14 @@
   "name": "sql_quiz",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "test": "bun test",
+    "test:summary": "bun test 2>&1 | tail -3",
+    "test:ddl": "bun test spec/ddl.test.ts 2>&1 | tail -3",
+    "test:dml": "bun test spec/dml.test.ts 2>&1 | tail -3",
+    "test:pass": "bun test 2>&1 | grep '(pass)'",
+    "test:fail": "bun test 2>&1 | grep '(fail)'"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
